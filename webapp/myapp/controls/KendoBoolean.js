@@ -11,17 +11,21 @@ define([
         },
 
         componentDidMount: function (rootNode) {
+            var self = this;
             $(rootNode).html('<input>').kendoDropDownList({
                 dataTextField: 'text',
                 dataValueField: 'value',
                 dataSource: [ { text: 'Yes', value: 'true' }, { text: 'No', value: 'false' } ],
                 index: 0
+//                change: function () {
+//                    self.props.model.set(self.props.fieldName, this.value());
+//                }
             });
-            $(rootNode).data('kendoDropDownList').value(this.props.value);
+            $(rootNode).data('kendoDropDownList').value(this.props.model.get(this.props.fieldName));
         },
 
         componentDidUpdate: function (prevProps, prevState, rootNode) {
-            $(rootNode).data('kendoDropDownList').value(this.props.value);
+            $(rootNode).data('kendoDropDownList').value(this.props.model.get(this.props.fieldName));
         }
 
     });

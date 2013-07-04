@@ -2,10 +2,11 @@
 
     <h3>properties page</h3>
 
-    <ul id="orderForm" data-beantype="DummyBean" class="Order">
-        {formItems}
-    </ul>
-
-    <input type="submit" value="Submit" data-wspt="beansave" class="k-button" />
+    <form onSubmit={onSubmit}>
+        <ul id="orderForm" class="Order">
+            {formItems}
+        </ul>
+        <input type="submit" value="Submit" class="k-button" />
+    </form>
 
 </div>

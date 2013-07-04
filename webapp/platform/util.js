@@ -28,5 +28,16 @@ define([
         return promise;
     };
 
+
+    /**
+     * functional map over js objects:
+     *
+     *     var m={'a': 10, 'b': 20, 'c': 30};
+     *     mapo(m, function(v,k){return [k, v+1];});
+     *
+     *       => {"a":11,"b":21,"c":31}
+     */
+    exports.mapo = _.compose(_.object, _.map);
+
     return exports;
 });

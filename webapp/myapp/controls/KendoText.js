@@ -8,10 +8,14 @@ define([
 
         render: function () {
             var scope = {
-                value: this.props.value
+                value: this.props.model.get(this.props.fieldName)
             };
             var dom = jsxutil.exec('<input type="text" class="k-textbox" value={value} />', scope);
             return dom;
+        },
+
+        componentDidMount: function (rootNode) {
+
         }
 
 

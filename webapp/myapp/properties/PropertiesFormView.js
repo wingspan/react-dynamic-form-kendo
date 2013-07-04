@@ -1,5 +1,5 @@
 define([
-    'underscore', 'jquery', 'react', 'platform/jsxutil',
+    'underscore', 'jquery', 'react', 'platform/jsxutil', 'platform/util',
     'myapp/controls/KendoText',
     'myapp/controls/KendoBoolean',
     'myapp/controls/KendoNumber',
@@ -8,28 +8,29 @@ define([
     'text!myapp/properties/CrudPage.html',
     'text!myapp/properties/formitem.html',
     'react-backbone'
-], function (_, $, React, jsxutil,
+], function (_, $, React, jsxutil, util,
              KendoText, KendoBoolean, KendoNumber, KendoDatetime,
              typeMetadata, formHtml, formItemHtml) {
     'use strict';
 
 
-    function ControlFactory(metadata, value) {
+    function ControlFactory(fieldName, metadata, model) {
         var scope = {
             KendoText: KendoText,
             KendoBoolean: KendoBoolean,
             KendoNumber: KendoNumber,
             KendoDatetime: KendoDatetime,
+            fieldName: fieldName,
             metadata: metadata,
-            value: value
+            model: model
         };
 
         var dispatch = {
-            text: jsxutil.exec('<KendoText value={value} />', scope),
-            number: jsxutil.exec('<KendoNumber value={value} />', scope),
-            datetime: jsxutil.exec('<KendoDatetime value={value} />', scope),
-            boolean: jsxutil.exec('<KendoBoolean value={value} />', scope),
-            rawtext: jsxutil.exec('<input type="text" value={value} />', scope)
+            text: jsxutil.exec('<KendoText model={model} fieldName={fieldName} ref={fieldName} />', scope),
+            number: jsxutil.exec('<KendoNumber model={model} fieldName={fieldName} ref={fieldName} />', scope),
+            datetime: jsxutil.exec('<KendoDatetime model={model} fieldName={fieldName} ref={fieldName} />', scope),
+            boolean: jsxutil.exec('<KendoBoolean model={model} fieldName={fieldName} ref={fieldName} />', scope),
+            rawtext: jsxutil.exec('<input type="text" model={model} fieldName={fieldName} ref={fieldName} />', scope)
         };
 
         return dispatch[metadata.dataType];
@@ -45,13 +46,10 @@ define([
             console.assert(!!this.props.fields);
             console.assert(!!this.props.model);
 
-            var formItems = this.props.fields.map(function (field) {
+            var formItems = this.props.fields.map(function (fieldName) {
 
-
-                var metadata = self.props.fieldMetadata[field];
-                var value = model.get(field);
-
-                var control = ControlFactory(metadata, value);
+                var metadata = self.props.fieldMetadata[fieldName];
+                var control = ControlFactory(fieldName, metadata, self.props.model);
 
                 var scope = {
                     label: metadata.label,
@@ -62,7 +60,18 @@ define([
             });
 
 
-            var scope = { formItems: formItems };
+            var scope = {
+                formItems: formItems,
+                onSubmit: function (e) {
+                    e.nativeEvent.preventDefault();
+
+                    var formState = util.mapo(self.refs, function (ref, key) {
+                        return [key, ref.getDOMNode().value];
+                    });
+
+                    self.props.model.set(formState);
+                }
+            };
             var dom = jsxutil.exec(formHtml, scope);
             return dom;
         }

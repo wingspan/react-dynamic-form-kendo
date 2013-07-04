@@ -11,12 +11,18 @@ define([
         },
 
         componentDidMount: function (rootNode) {
-            $(rootNode).kendoDateTimePicker();
-            $(rootNode).data('kendoDateTimePicker').value(new Date(this.props.value));
+            var self = this;
+            $(rootNode).kendoDateTimePicker({
+//                change: function () {
+//                    self.props.model.set(self.props.fieldName, this.value());
+//                }
+            });
+            $(rootNode).data('kendoDateTimePicker').value(new Date(this.props.model.get(this.props.fieldName)));
+
         },
 
         componentDidUpdate: function (prevProps, prevState, rootNode) {
-            $(rootNode).data('kendoDateTimePicker').value(new Date(this.props.value));
+            $(rootNode).data('kendoDateTimePicker').value(new Date(this.props.model.get(this.props.fieldName)));
         }
 
 
