@@ -1,6 +1,6 @@
 define([
     'underscore', 'jquery', 'backbone', 'react', 'platform/util',
-    'myapp/properties/PropertiesFormView'
+    'platform/properties/PropertiesFormView'
 ], function (_, $, Backbone, React, util, PropertiesFormView) {
     'use strict';
 
