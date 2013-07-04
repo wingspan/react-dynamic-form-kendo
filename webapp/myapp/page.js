@@ -22,12 +22,16 @@ define([
 
         $.when(asyncBeanTypeInfo).done(function (typeMetadata) {
 
-            React.renderComponent(PropertiesFormView({
-                typeMetadata: typeMetadata.data,
-                fieldMetadata: typeMetadata.data.fields,
-                fields: ['tmfItemId', 'tmfItemType', 'description', 'isCoreForLevel', 'modifiedDate'],
-                model: model
-            }), $('[data-id="todo1"]')[0]);
+            function renderForm(sel) {
+                React.renderComponent(PropertiesFormView({
+                    typeMetadata: typeMetadata.data,
+                    fieldMetadata: typeMetadata.data.fields,
+                    fields: ['tmfItemId', 'tmfItemType', 'description', 'isCoreForLevel', 'modifiedDate'],
+                    model: model
+                }), $(sel)[0]);
+            }
+
+            _.each(['[data-id="form1"]', '[data-id="form2"]', '[data-id="form3"]'], renderForm);
 
         });
 
