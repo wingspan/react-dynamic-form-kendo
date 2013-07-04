@@ -4,13 +4,12 @@ define([
     'myapp/controls/KendoBoolean',
     'myapp/controls/KendoNumber',
     'myapp/controls/KendoDatetime',
-    'text!mocks/TmfStudyItemModel.json',
     'text!myapp/properties/CrudPage.html',
     'text!myapp/properties/formitem.html',
     'react-backbone'
 ], function (_, $, React, jsxutil, util,
              KendoText, KendoBoolean, KendoNumber, KendoDatetime,
-             typeMetadata, formHtml, formItemHtml) {
+             formHtml, formItemHtml) {
     'use strict';
 
 
